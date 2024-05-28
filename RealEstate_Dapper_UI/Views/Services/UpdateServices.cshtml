@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model UpdateServiceDto
+
+@{
+    ViewBag.Title = "Update Services";
+    Layout = "~/Views/Admin/Index.cshtml";
+}
+
+<div style="padding: 50px">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h3 class="mb-4">Hizmet Güncelleme Sayfası</h3>
+                    <form method="post">
+                        <input type="hidden" asp-for="ServiceID">
+                        <label for="">Personel Adı</label>
+                        <br/>
+                        <input type="text" asp-for="ServiceName" class="form-control">
+                        <br/>
+                        <button class="btn btn-primary">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

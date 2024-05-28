@@ -1,0 +1,46 @@
+﻿@model List<RealEstate_Dapper_UI.Dtos.MessageDtos.ResultInBoxMessageDto>
+
+<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-envelope me-lg-2"></i>
+        <span class="d-none d-lg-inline-flex">Mesajlar</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+        @foreach (var item in Model)
+        {
+            string GetTimeAgo(DateTime sentTime)
+            {
+                var timeDifference = DateTime.Now - sentTime;
+                var totalDays = timeDifference.TotalDays;
+                int totalMonth = (int)Math.Floor(totalDays / 30.44);
+                int totalYear = (int)Math.Floor(totalDays / 365.25);
+
+                if (timeDifference.TotalMinutes < 1)
+                    return "just now";
+                if (timeDifference.TotalMinutes < 60)
+                    return $"{(int)timeDifference.TotalMinutes} minute{((int)timeDifference.TotalMinutes > 1 ? "s" : "")} ago";
+                if (timeDifference.TotalHours < 24)
+                    return $"{(int)timeDifference.TotalHours} hour{((int)timeDifference.TotalHours > 1 ? "s" : "")} ago";
+                if (timeDifference.TotalDays < 30)
+                    return $"{(int)totalDays} day{((int)totalDays > 1 ? "s" : "")} ago";
+                if (totalMonth < 12)
+                    return $"{totalMonth} month{(totalMonth > 1 ? "s" : "")} ago";
+                
+                return $"{totalYear} year{(totalYear> 1 ? "s" : "")} ago";
+
+            }
+
+            <a href="#" class="dropdown-item">
+                <div class="d-flex align-items-center">
+                    <img class="rounded-circle" src="@item.UserImageUrl" alt="" style="width: 40px; height: 40px;">
+                    <div class="ms-2">
+                        <h6 class="fw-normal mb-0">@item.Name sent a message</h6>
+                        <small>@GetTimeAgo(item.SendDate)</small>
+                    </div>
+                </div>
+            </a>
+            <hr class="dropdown-divider">
+        }
+        <a href="#" class="dropdown-item text-center">See all messages</a>
+    </div>
+</div>

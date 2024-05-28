@@ -1,0 +1,83 @@
+﻿@model List<ResultEstateAgentDashboardChartDto>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+        }
+        canvas {
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chart-container">
+    <canvas id="myChart1"></canvas>
+    <canvas id="myChart2"></canvas>
+</div>
+
+<script>
+    const xValues1 = [];
+    const yValues1 = [];
+    const barColors1 = ["rgb(104, 210, 232)", "rgb(3, 174, 210)", "rgb(202, 244, 255)", "rgb(160, 222, 255)", "rgb(90, 178, 255)"];
+
+    @foreach (var item in Model)
+    {
+        @:xValues1.push("@Html.Raw(item.City)");
+        @:yValues1.push(@item.CityCount);
+    }
+
+    new Chart("myChart1", {
+        type: "bar",
+        data: {
+            labels: xValues1,
+            datasets: [{
+                backgroundColor: barColors1,
+                data: yValues1
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Şehir - İlan İstatistiği 1"
+            }
+        }
+    });
+
+    const xValues2 = [];
+    const yValues2 = [];
+    const barColors2 = ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 206, 86)", "rgb(75, 192, 192)", "rgb(153, 102, 255)"];
+
+    @foreach (var item in Model)
+    {
+        @:xValues2.push("@Html.Raw(item.City)");
+        @:yValues2.push(@item.CityCount);
+    }
+
+    new Chart("myChart2", {
+        type: "bar",
+        data: {
+            labels: xValues2,
+            datasets: [{
+                backgroundColor: barColors2,
+                data: yValues2
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Şehir - İlan İstatistiği 2"
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
