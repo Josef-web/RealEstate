@@ -16,7 +16,7 @@ public class PopularLocationRepository:IPopularLocationRepository
 
     public async Task<List<ResultPopularLocationDto>> GetAllPopularLocationAsync()
     {
-        string query = "SELECT * FROM PopularLocation";
+        string query = "SELECT * FROM PopularLocation DESC";
         using (var connection = _context.CreateConnection())
         {
             var values = await connection.QueryAsync<ResultPopularLocationDto>(query);

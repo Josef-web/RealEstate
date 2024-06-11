@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using RealEstate_Dapper_Api.Dtos.ProductDetailDto;
 using RealEstate_Dapper_Api.Dtos.ProductDtos;
 using RealEstate_Dapper_Api.Models.DapperContext;
 
@@ -56,7 +57,8 @@ public class ProductRepository:IProductRepository
     public async Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync()
     {
         string query =
-            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID";
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName " +
+            "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID";
                        
         using (var connection = _context.CreateConnection())
         {
@@ -65,7 +67,7 @@ public class ProductRepository:IProductRepository
         }
     }
 
-    public async void ProductDealOfTheDayStatusChangeToTrue(int id)
+    public async Task ProductDealOfTheDayStatusChangeToTrue(int id)
     {
         string query = "UPDATE Product SET DealOfTheDay=1 WHERE ProductID=@productId";
         var parameters = new DynamicParameters();
@@ -76,7 +78,7 @@ public class ProductRepository:IProductRepository
         }
     }
 
-    public async void ProductDealOfTheDayStatusChangeToFalse(int id)
+    public async Task ProductDealOfTheDayStatusChangeToFalse(int id)
     {
         string query = "UPDATE Product SET DealOfTheDay=0 WHERE ProductID=@productId";
         var parameters = new DynamicParameters();
@@ -89,7 +91,8 @@ public class ProductRepository:IProductRepository
 
     public async Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProductAsync()
     {
-        string query = "SELECT TOP(5) ProductID,Title,Price,City,District,ProductCategory,CategoryName,AdvertisementDate FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE Type='Kiralık' ORDER BY ProductID DESC";
+        string query = "SELECT TOP(5) ProductID,Title,Price,City,District,ProductCategory,CategoryName,AdvertisementDate " +
+                       "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE Type='Kiralık' ORDER BY ProductID DESC";
         using (var connection = _context.CreateConnection())
         {
             var values = await connection.QueryAsync<ResultLastFiveProductWithCategoryDto>(query);
@@ -120,6 +123,63 @@ public class ProductRepository:IProductRepository
         using (var connection = _context.CreateConnection())
         {
             await connection.ExecuteAsync(query, parameters);
+        }
+    }
+
+    public async Task<GetProductByIdDto> GetProductById(int id)
+    {
+        string query =
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Description, Address, Type, DealOfTheDay, CategoryName, AdvertisementDate FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE ProductId=@productId";
+                       
+        var parameters = new DynamicParameters();
+        parameters.Add("@productId",id);
+        using (var connection = _context.CreateConnection())
+        {
+            var values = await connection.QueryAsync<GetProductByIdDto>(query, parameters);
+            return values.FirstOrDefault();
+        }
+        
+    }
+
+    public async Task<GetProductDetailByIdDto> GetProductDetailById(int id)
+    {
+        string query =
+            "SELECT * FROM ProductDetails WHERE ProductId=@productId";
+                       
+        var parameters = new DynamicParameters();
+        parameters.Add("@productId",id);
+        using (var connection = _context.CreateConnection())
+        {
+            var values = await connection.QueryAsync<GetProductDetailByIdDto>(query, parameters);
+            return values.FirstOrDefault();
+        }
+    }
+
+    public async Task<List<ResultPropertyWithSearchListDto>> ResultPropertyWithSearchList(string keyword, int propertyCategoryId, string city)
+    {
+        string query = "SELECT * FROM Product WHERE Title LIKE '%" + keyword + "%' AND ProductCategory=@propertyCategoryId AND City=@city";
+                       
+        var parameters = new DynamicParameters();
+        parameters.Add("@keyword",keyword);
+        parameters.Add("@propertyCategoryId",propertyCategoryId);
+        parameters.Add("@city",city);
+        using (var connection = _context.CreateConnection())
+        {
+            var values = await connection.QueryAsync<ResultPropertyWithSearchListDto>(query, parameters);
+            return values.ToList();
+        }
+    }
+
+    public async Task<List<ResultProductWithCategoryDto>> GetPropertyByDealOfTheDayTrueWithCategoryAsync()
+    {
+        string query =
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName " +
+            "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE DealOfTheDay=1";
+                       
+        using (var connection = _context.CreateConnection())
+        {
+            var values = await connection.QueryAsync<ResultProductWithCategoryDto>(query);
+            return values.ToList();
         }
     }
 }

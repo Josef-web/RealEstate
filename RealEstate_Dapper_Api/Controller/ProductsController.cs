@@ -68,6 +68,29 @@ public class ProductsController : ControllerBase
    public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
    {
       await _productRepository.CreateProduct(createProductDto);
-      return Ok("İlan başarıyla eklendi");
+      return Ok("Advert created successfully");
    }
+
+   [HttpGet("GetProductById")]
+   public async Task<IActionResult> GetProductById(int id)
+   {
+      var values = await _productRepository.GetProductById(id);
+      return Ok(values);
+   }
+
+   [HttpGet("ResultPropertyWithSearchList")]
+   public async Task<IActionResult> ResultPropertyWithSearchList(string keyword, int propertyCategoryId, string city)
+   {
+      var values = await _productRepository.ResultPropertyWithSearchList(keyword, propertyCategoryId, city);
+      return Ok(values);
+   }
+
+   [HttpGet("GetPropertyByDealOfTheDayTrueWithCategoryAsync")]
+   public async Task<IActionResult> GetPropertyByDealOfTheDayTrueWithCategoryAsync()
+   {
+      var values = await _productRepository.GetPropertyByDealOfTheDayTrueWithCategoryAsync();
+      return Ok(values);
+   }
+   
+   
 }

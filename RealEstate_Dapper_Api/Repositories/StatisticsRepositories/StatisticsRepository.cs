@@ -65,7 +65,7 @@ public class StatisticsRepository:IStatisticsRepository
 
     public string EmployeeNameByMaxProductCount()
     {
-        string query = "SELECT Name,COUNT(*) 'product_count'FROM Product INNER JOIN Employee ON Product.EmployeeID=Employee.EmployeeID GROUP BY Name ORDER BY product_count DESC";
+        string query = "SELECT Name,COUNT(*) 'product_count' FROM Product INNER JOIN Employee ON Product.EmployeeID=Employee.EmployeeID GROUP BY Name ORDER BY product_count DESC";
         using (var connection = _context.CreateConnection())
         {
             var values = connection.QueryFirstOrDefault<string>(query);
