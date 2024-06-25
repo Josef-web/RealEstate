@@ -12,7 +12,7 @@ public class ServiceRepository:IServiceRepository
     {
         _context = context;
     }
-    public async Task<List<ResultServiceDto>> GetAllServiceAsync()
+    public async Task<List<ResultServiceDto>> GetAllService()
     {
         string query = "SELECT * FROM Service";
         using (var connection = _context.CreateConnection())
@@ -22,7 +22,7 @@ public class ServiceRepository:IServiceRepository
         }
     }
 
-    public async void CreateService(CreateServiceDto createServiceDto)
+    public async Task CreateService(CreateServiceDto createServiceDto)
     {
         string query = "INSERT INTO Service (ServiceName, ServiceStatus) values (@serviceName,@serviceStatus)";
         var parameters = new DynamicParameters();
@@ -35,7 +35,7 @@ public class ServiceRepository:IServiceRepository
         }
     }
 
-    public async void DeleteService(int id)
+    public async Task DeleteService(int id)
     {
         string query = "DELETE FROM Service WHERE ServiceID=@serviceID";
         var parameters = new DynamicParameters();
@@ -46,7 +46,7 @@ public class ServiceRepository:IServiceRepository
         }
     }
 
-    public async void UpdateService(UpdateServiceDto updateServiceDto)
+    public async Task UpdateService(UpdateServiceDto updateServiceDto)
     {
         string query = "UPDATE Service SET ServiceName=@serviceName, ServiceStatus=@serviceStatus WHERE ServiceID=@serviceID";
         var parameters = new DynamicParameters();

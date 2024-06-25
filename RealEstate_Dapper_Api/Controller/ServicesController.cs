@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using RealEstate_Dapper_Api.Dtos.ServicesDtos;
 using RealEstate_Dapper_Api.Repositories.ServiceRepositories;
 
@@ -19,28 +18,28 @@ namespace RealEstate_Dapper_Api.Controller
         [HttpGet]
         public async Task<IActionResult> GeServicesList()
         {
-            var value = await _serviceRepository.GetAllServiceAsync();
+            var value = await _serviceRepository.GetAllService();
             return Ok(value);
         }
         
         [HttpPost]
         public async Task<IActionResult> CreateService(CreateServiceDto createServiceDto)
         {
-            _serviceRepository.CreateService(createServiceDto);
+            await _serviceRepository.CreateService(createServiceDto);
             return Ok("Service added successfully");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteService(int id)
         {
-            _serviceRepository.DeleteService(id);
+            await _serviceRepository.DeleteService(id);
             return Ok("Service deleted successfully");
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateService(UpdateServiceDto updateServiceDto)
         {
-            _serviceRepository.UpdateService(updateServiceDto);
+            await _serviceRepository.UpdateService(updateServiceDto);
             return Ok("Service updated successfully");
         }
 

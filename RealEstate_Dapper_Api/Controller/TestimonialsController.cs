@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate_Dapper_Api.Repositories.TestimonialRepositories;
 
@@ -18,7 +17,7 @@ namespace RealEstate_Dapper_Api.Controller
         [HttpGet]
         public async Task<IActionResult> TestimonialList()
         {
-            var values = await _testimonialRepository.GetAllTestimonialAsync();
+            var values = await _testimonialRepository.GetAllTestimonial();
             return Ok(values);
         }
     }

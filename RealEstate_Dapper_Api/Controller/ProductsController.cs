@@ -92,5 +92,12 @@ public class ProductsController : ControllerBase
       return Ok(values);
    }
    
+   [HttpGet("LastThreeProductList")]
+   public async Task<IActionResult> LastThreeProductList()
+   {
+      var values = await _productRepository.GetLastThreeProductAsync();
+      return Ok(values);
+   }
+   
    
 }

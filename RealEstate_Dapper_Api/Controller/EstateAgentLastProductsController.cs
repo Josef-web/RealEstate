@@ -17,7 +17,7 @@ public class EstateAgentLastProductsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetLastFiveProductAsync(int id)
     {
-        var values = await _lastFiveProductsRepository.GetLastFiveProductAsync(id);
+        var values = await _lastFiveProductsRepository.GetLastFiveProduct(id);
         return Ok(values);
     }
     

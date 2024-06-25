@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstate_Dapper_Api.Repositories.ProductImageRepositories;
-using RealEstate_Dapper_Api.Repositories.ProductRepositories;
 
 namespace RealEstate_Dapper_Api.Controller;
 

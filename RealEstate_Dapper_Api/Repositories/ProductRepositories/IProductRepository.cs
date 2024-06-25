@@ -12,6 +12,7 @@ public interface IProductRepository
     Task ProductDealOfTheDayStatusChangeToTrue(int id);
     Task ProductDealOfTheDayStatusChangeToFalse(int id);
     Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProductAsync();
+    Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProductAsync();
     Task CreateProduct(CreateProductDto createProductDto);
     Task<GetProductByIdDto> GetProductById(int id);
     Task<GetProductDetailByIdDto> GetProductDetailById(int id);

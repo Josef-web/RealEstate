@@ -1,5 +1,4 @@
 using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate_Dapper_Api.Dtos.LoginDtos;
 using RealEstate_Dapper_Api.Models.DapperContext;

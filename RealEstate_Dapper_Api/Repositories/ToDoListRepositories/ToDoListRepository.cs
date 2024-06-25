@@ -15,7 +15,7 @@ public class ToDoListRepository: IToDoListRepository
         _context = context;
     }
 
-    public async Task<List<ResultToDoListDto>> GetAllToDoListAsync()
+    public async Task<List<ResultToDoListDto>> GetAllToDoList()
     {
         string query = "SELECT * FROM ToDoList";
         using (var connection = _context.CreateConnection())
@@ -25,17 +25,17 @@ public class ToDoListRepository: IToDoListRepository
         }
     }
 
-    public void CreateToDoList(CreateToDoListDto ToDoListDto)
+    public Task CreateToDoList(CreateToDoListDto ToDoListDto)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteToDoList(int id)
+    public Task DeleteToDoList(int id)
     {
         throw new NotImplementedException();
     }
 
-    public void UpdateToDoList(UpdateToDoListDto ToDoListDto)
+    public Task UpdateToDoList(UpdateToDoListDto ToDoListDto)
     {
         throw new NotImplementedException();
     }

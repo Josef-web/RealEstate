@@ -14,9 +14,9 @@ public class PopularLocationRepository:IPopularLocationRepository
         _context = contex;
     }
 
-    public async Task<List<ResultPopularLocationDto>> GetAllPopularLocationAsync()
+    public async Task<List<ResultPopularLocationDto>> GetAllPopularLocation()
     {
-        string query = "SELECT * FROM PopularLocation DESC";
+        string query = "SELECT * FROM PopularLocation ORDER BY PropertyCount DESC";
         using (var connection = _context.CreateConnection())
         {
             var values = await connection.QueryAsync<ResultPopularLocationDto>(query);
@@ -24,7 +24,7 @@ public class PopularLocationRepository:IPopularLocationRepository
         }
     }
 
-    public async void CreatePopularLocation(CreatePopularLocationDto createPopularLocationDto)
+    public async Task CreatePopularLocation(CreatePopularLocationDto createPopularLocationDto)
     {
         string query = "INSERT INTO PopularLocation (CityName, ImageUrl) values (@cityName,@imageUrl)";
         var parameters = new DynamicParameters();
@@ -37,7 +37,7 @@ public class PopularLocationRepository:IPopularLocationRepository
         }
     }
 
-    public async void DeletePopularLocation(int id)
+    public async Task DeletePopularLocation(int id)
     {
         string query = "DELETE FROM PopularLocation WHERE LocationID=@locationID";
         var parameters = new DynamicParameters();
@@ -48,7 +48,7 @@ public class PopularLocationRepository:IPopularLocationRepository
         }
     }
 
-    public async void UpdatePopularLocation(UpdatePopularLocationDto updatePopularLocationDto)
+    public async Task UpdatePopularLocation(UpdatePopularLocationDto updatePopularLocationDto)
     {
         string query = "UPDATE PopularLocation SET CityName=@cityName, ImageUrl=@imageUrl WHERE LocationID=@locationID";
         var parameters = new DynamicParameters();

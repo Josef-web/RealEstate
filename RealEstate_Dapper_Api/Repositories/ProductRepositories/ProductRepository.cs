@@ -100,6 +100,17 @@ public class ProductRepository:IProductRepository
         }
     }
 
+    public async Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProductAsync()
+    {
+        string query = "SELECT TOP(3) ProductID,Title,Price,City,District,ProductCategory,CategoryName,CoverImage,Description,AdvertisementDate " +
+                       "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID ORDER BY ProductID DESC";
+        using (var connection = _context.CreateConnection())
+        {
+            var values = await connection.QueryAsync<ResultLastThreeProductWithCategoryDto>(query);
+            return values.ToList();
+        }
+    }
+
     public async  Task CreateProduct(CreateProductDto createProductDto)
     {
         string query = "INSERT INTO Product " +

@@ -13,7 +13,7 @@ public class LastFiveProductsRepository:ILastFiveProductsRepository
         _context = context;
     }
     
-    public async Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProductAsync(int id)
+    public async Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProduct(int id)
     {
         string query = "SELECT TOP(5) ProductID,Title,Price,City,District,ProductCategory,CategoryName,AdvertisementDate FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE EmployeeID=@employeeId ORDER BY ProductID DESC";
         var parameters = new DynamicParameters();

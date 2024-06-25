@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using RealEstate_Dapper_Api.Dtos.ServicesDtos;
 using RealEstate_Dapper_Api.Dtos.TestimonialDtos;
 using RealEstate_Dapper_Api.Models.DapperContext;
 
@@ -14,7 +13,7 @@ public class TestimonialRepository:ITestimonialRepository
         _context = context;
     }
 
-    public async Task<List<ResultTestimonialDto>> GetAllTestimonialAsync()
+    public async Task<List<ResultTestimonialDto>> GetAllTestimonial()
     {
         string query = "SELECT * FROM Testimonial";
         using (var connection = _context.CreateConnection())

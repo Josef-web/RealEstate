@@ -13,7 +13,7 @@ public class WhoWeAreDetailRepository:IWhoWeAreDetailRepository
         _context = context;
     }
     
-    public async Task<List<ResultWhoWeAreDetailDto>> GetAllWhoWeAreDetailAsync()
+    public async Task<List<ResultWhoWeAreDetailDto>> GetAllWhoWeAreDetail()
     {
         string query = "SELECT * FROM WhoWeAreDetail";
         using (var connection = _context.CreateConnection())
@@ -23,7 +23,7 @@ public class WhoWeAreDetailRepository:IWhoWeAreDetailRepository
         }
     }
 
-    public async void CreateWhoWeAreDetail(CreateWhoWeAreDetailDto createWhoWeAreDetailDto)
+    public async Task CreateWhoWeAreDetail(CreateWhoWeAreDetailDto createWhoWeAreDetailDto)
     {
         string query = "INSERT INTO WhoWeAreDetail (Title, Subtitle, Description1, Description2) values (@title,@subtitle,@description1,@description2)";
         var parameters = new DynamicParameters();
@@ -38,7 +38,7 @@ public class WhoWeAreDetailRepository:IWhoWeAreDetailRepository
         }
     }
 
-    public async void DeleteWhoWeAreDetail(int id)
+    public async Task DeleteWhoWeAreDetail(int id)
     {
         string query = "DELETE FROM WhoWeAreDetail WHERE WhoWeAreDetailID=@whoWeAreDetailID";
         var parameters = new DynamicParameters();
@@ -49,7 +49,7 @@ public class WhoWeAreDetailRepository:IWhoWeAreDetailRepository
         }
     }
 
-    public async void UpdateWhoWeAreDetail(UpdateWhoWeAreDetailDto updateWhoWeAreDetailDto)
+    public async Task UpdateWhoWeAreDetail(UpdateWhoWeAreDetailDto updateWhoWeAreDetailDto)
     {
         string query = "UPDATE WhoWeAreDetail SET Title=@title,Subtitle=@subTitle,Description1=@description1,Description2=@description2 WHERE WhoWeAreDetailID=@whoWeAreDetaiID";
         var parameters = new DynamicParameters();

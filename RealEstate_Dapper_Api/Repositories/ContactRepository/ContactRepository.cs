@@ -13,7 +13,7 @@ public class ContactRepository:IContactRepository
         _context = context;
     }
     
-    public async Task<List<ResultContactDto>> GetAllContactAsync()
+    public async Task<List<ResultContactDto>> GetAllContact()
     {
         string query = "SELECT * FROM Contact";
         using (var connection = _context.CreateConnection())
@@ -33,12 +33,12 @@ public class ContactRepository:IContactRepository
         }
     }
 
-    public void CreateContact(CreateContactDto createContactDto)
+    public Task CreateContact(CreateContactDto createContactDto)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteContact(int id)
+    public Task DeleteContact(int id)
     {
         throw new NotImplementedException();
     }
