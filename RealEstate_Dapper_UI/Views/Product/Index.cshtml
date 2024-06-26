@@ -35,23 +35,23 @@
                             count++;
                             <tr>
                                 <th scope="row">@count</th>
-                                <td>@item.title</td>
-                                <td>@item.city</td>
-                                <td>@item.district</td>
-                                <td>@item.categoryName</td>
-                                <td>@item.price</td>
-                                <td>@item.type</td>
-                                <td><a href="/Product/DeleteProduct/@item.productID" class="btn btn-outline-danger">Sil</a></td>
-                                <td><a href="/Product/UpdateProduct/@item.productID" class="btn btn-outline-success">Güncelle</a></td>
-                                <td><a href="/Product/ProductDetail/@item.productID" class="btn btn-outline-primary">Sitede Gör</a></td>
+                                <td>@item.Title</td>
+                                <td>@item.City</td>
+                                <td>@item.District</td>
+                                <td>@item.CategoryName</td>
+                                <td>@item.Price</td>
+                                <td>@item.Type</td>
+                                <td><a href="/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
+                                <td><a href="/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>
+                                <td><a href="/Product/ProductDetail/@item.ProductID" class="btn btn-outline-primary">Sitede Gör</a></td>
                                 <td>
-                                    @if (item.dealOfTheDay == true)
+                                    @if (item.DealOfTheDay == true)
                                     {
-                                        <a href="/Product/ProductDealOfTheDayStatusChangeToFalse/@item.productID" class="btn btn-outline-secondary">Pasif Yap</a>
+                                        <a href="/Product/ProductDealOfTheDayStatusChangeToFalse/@item.ProductID" class="btn btn-outline-secondary">Pasif Yap</a>
                                     }
-                                    @if (item.dealOfTheDay == false)
+                                    @if (item.DealOfTheDay == false)
                                     {
-                                        <a href="/Product/ProductDealOfTheDayStatusChangeToTrue/@item.productID" class="btn btn-outline-warning">Aktif Yap</a>
+                                        <a href="/Product/ProductDealOfTheDayStatusChangeToTrue/@item.ProductID" class="btn btn-outline-warning">Aktif Yap</a>
                                     }
                                 </td>
                             </tr>

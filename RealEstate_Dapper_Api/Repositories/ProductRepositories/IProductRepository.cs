@@ -5,17 +5,17 @@ namespace RealEstate_Dapper_Api.Repositories.ProductRepositories;
 
 public interface IProductRepository
 {
-    Task<List<ResultProductDto>> GetAllProductAsync();
+    Task<List<ResultProductDto>> GetAllProduct();
     Task<List<ResultProductAdvertListWithCategoryByEmployeeDto>> GetProductAdvertListByEmployeeAsyncByTrue(int id);
     Task<List<ResultProductAdvertListWithCategoryByEmployeeDto>> GetProductAdvertListByEmployeeAsyncByFalse(int id);
     Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync();
     Task ProductDealOfTheDayStatusChangeToTrue(int id);
     Task ProductDealOfTheDayStatusChangeToFalse(int id);
-    Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProductAsync();
-    Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProductAsync();
+    Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProduct();
+    Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProduct();
     Task CreateProduct(CreateProductDto createProductDto);
     Task<GetProductByIdDto> GetProductById(int id);
     Task<GetProductDetailByIdDto> GetProductDetailById(int id);
     Task<List<ResultPropertyWithSearchListDto>> ResultPropertyWithSearchList(string keyword, int propertyCategoryId, string city);
-    Task<List<ResultProductWithCategoryDto>> GetPropertyByDealOfTheDayTrueWithCategoryAsync();
+    Task<List<ResultProductWithCategoryDto>> GetPropertyByDealOfTheDayTrueWithCategory();
 }

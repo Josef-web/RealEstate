@@ -14,7 +14,7 @@ public class ProductRepository:IProductRepository
         _context = context;
     }
     
-    public async Task<List<ResultProductDto>> GetAllProductAsync()
+    public async Task<List<ResultProductDto>> GetAllProduct()
     {
         string query = "SELECT * FROM Product";
         using (var connection = _context.CreateConnection())
@@ -57,7 +57,7 @@ public class ProductRepository:IProductRepository
     public async Task<List<ResultProductWithCategoryDto>> GetAllProductWithCategoryAsync()
     {
         string query =
-            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName " +
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName, SlugUrl " +
             "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID";
                        
         using (var connection = _context.CreateConnection())
@@ -89,7 +89,7 @@ public class ProductRepository:IProductRepository
         }
     }
 
-    public async Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProductAsync()
+    public async Task<List<ResultLastFiveProductWithCategoryDto>> GetLastFiveProduct()
     {
         string query = "SELECT TOP(5) ProductID,Title,Price,City,District,ProductCategory,CategoryName,AdvertisementDate " +
                        "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE Type='Kiralık' ORDER BY ProductID DESC";
@@ -100,7 +100,7 @@ public class ProductRepository:IProductRepository
         }
     }
 
-    public async Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProductAsync()
+    public async Task<List<ResultLastThreeProductWithCategoryDto>> GetLastThreeProduct()
     {
         string query = "SELECT TOP(3) ProductID,Title,Price,City,District,ProductCategory,CategoryName,CoverImage,Description,AdvertisementDate " +
                        "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID ORDER BY ProductID DESC";
@@ -140,7 +140,7 @@ public class ProductRepository:IProductRepository
     public async Task<GetProductByIdDto> GetProductById(int id)
     {
         string query =
-            "SELECT ProductID, Title, Price, CoverImage, City, District, Description, Address, Type, DealOfTheDay, CategoryName, AdvertisementDate FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE ProductId=@productId";
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Description, Address, Type, DealOfTheDay, CategoryName, AdvertisementDate, SlugUrl FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE ProductId=@productId";
                        
         var parameters = new DynamicParameters();
         parameters.Add("@productId",id);
@@ -181,10 +181,10 @@ public class ProductRepository:IProductRepository
         }
     }
 
-    public async Task<List<ResultProductWithCategoryDto>> GetPropertyByDealOfTheDayTrueWithCategoryAsync()
+    public async Task<List<ResultProductWithCategoryDto>> GetPropertyByDealOfTheDayTrueWithCategory()
     {
         string query =
-            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName " +
+            "SELECT ProductID, Title, Price, CoverImage, City, District, Address, Type, DealOfTheDay, CategoryName, SlugUrl " +
             "FROM Product INNER JOIN Category ON Product.ProductCategory=Category.CategoryID WHERE DealOfTheDay=1";
                        
         using (var connection = _context.CreateConnection())

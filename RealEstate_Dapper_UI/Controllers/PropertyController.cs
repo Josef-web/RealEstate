@@ -45,10 +45,10 @@ public class PropertyController : Controller
         return View();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> PropertyDetail(int id)
+    [HttpGet("property/{slug}/{id}")]
+    public async Task<IActionResult> PropertyDetail(string slug, int id)
     {
-        id = 1;
+        ViewBag.i = id;
         var client = _httpClientFactory.CreateClient();
         var responseMessage = await client.GetAsync("https://localhost:44350/api/Products/GetProductById?id=" + id);
         var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -59,15 +59,16 @@ public class PropertyController : Controller
         var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
         var values2 = JsonConvert.DeserializeObject<GetProductDetailByIdDto>(jsonData2);
         
-        ViewBag.productId = values.productID;
-        ViewBag.title1 = values.title;
-        ViewBag.price = values.price;
-        ViewBag.city = values.city;
-        ViewBag.district = values.district;
-        ViewBag.address = values.address;
-        ViewBag.type = values.type;
-        ViewBag.description = values.description;
+        ViewBag.productId = values.ProductID;
+        ViewBag.title1 = values.Title;
+        ViewBag.price = values.Price;
+        ViewBag.city = values.City;
+        ViewBag.district = values.District;
+        ViewBag.address = values.Address;
+        ViewBag.type = values.Type;
+        ViewBag.description = values.Description;
         ViewBag.date = values.AdvertisementDate;
+        ViewBag.slugUrl = values.SlugUrl;
         
         DateTime date1 = DateTime.Now; 
         DateTime date2 = values.AdvertisementDate;
@@ -76,16 +77,29 @@ public class PropertyController : Controller
         int month = timespan.Days;
         ViewBag.datediff = month / 30;
         
-        ViewBag.bathcount = values2.bathCount;
-        ViewBag.bedroomcount = values2.bedRoomCount;
-        ViewBag.productsize = values2.productSize;
-        ViewBag.roomCount = values2.roomCount;
-        ViewBag.garageSize = values2.garageSize;
-        ViewBag.buildYear = values2.buildYear;
-        ViewBag.location = values2.location;
-        ViewBag.videoUrl = values2.videoUrl;
-        
+        ViewBag.bathcount = values2.BathCount;
+        ViewBag.bedroomcount = values2.BedRoomCount;
+        ViewBag.productsize = values2.ProductSize;
+        ViewBag.roomCount = values2.RoomCount;
+        ViewBag.garageSize = values2.GarageSize;
+        ViewBag.buildYear = values2.BuildYear;
+        ViewBag.location = values2.Location;
+        ViewBag.videoUrl = values2.VideoUrl;
+
+        string slugFromTitle = CreateSlug(values.Title);
+        ViewBag.slugUrl = slugFromTitle;
         
         return View();
+    }
+
+    private string CreateSlug(string title)
+    {
+        title = title.ToLowerInvariant(); // Küçük harfe çevir
+        title = title.Replace(" ", "-"); // Boşlukları tire ile değiştir
+        title = System.Text.RegularExpressions.Regex.Replace(title, @"[^a-z0-9\s-]", ""); // Geçersiz karakterleri kaldır
+        title = System.Text.RegularExpressions.Regex.Replace(title, @"\s+", " ").Trim(); // Birden fazla boşluğu tek boşluğa indir ve kenar boşluklarını kaldır
+        title = System.Text.RegularExpressions.Regex.Replace(title, @"\s", "-"); // Boşlukları tire ile değiştir
+
+        return title;
     }
 }

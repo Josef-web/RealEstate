@@ -11,5 +11,6 @@ public class ResultProductWithCategoryDto
     public string CoverImage { get; set; }
     public string Type { get; set; }
     public string Address { get; set; }
-    public bool dealOfTheDay { get; set; }
+    public string SlugUrl { get; set; }
+    public bool DalOfTheDay { get; set; }
 }

@@ -19,7 +19,7 @@ public class ProductsController : ControllerBase
    [HttpGet]
    public async Task<IActionResult> ProductList()
    {
-      var values = await _productRepository.GetAllProductAsync();
+      var values = await _productRepository.GetAllProduct();
       return Ok(values);
    }
    [HttpGet("ProductListWithCategory")]
@@ -46,7 +46,7 @@ public class ProductsController : ControllerBase
    [HttpGet("LastFiveProductList")]
    public async Task<IActionResult> LastFiveProductList()
    {
-      var values = await _productRepository.GetLastFiveProductAsync();
+      var values = await _productRepository.GetLastFiveProduct();
       return Ok(values);
    }
 
@@ -88,14 +88,14 @@ public class ProductsController : ControllerBase
    [HttpGet("GetPropertyByDealOfTheDayTrueWithCategoryAsync")]
    public async Task<IActionResult> GetPropertyByDealOfTheDayTrueWithCategoryAsync()
    {
-      var values = await _productRepository.GetPropertyByDealOfTheDayTrueWithCategoryAsync();
+      var values = await _productRepository.GetPropertyByDealOfTheDayTrueWithCategory();
       return Ok(values);
    }
    
    [HttpGet("LastThreeProductList")]
    public async Task<IActionResult> LastThreeProductList()
    {
-      var values = await _productRepository.GetLastThreeProductAsync();
+      var values = await _productRepository.GetLastThreeProduct();
       return Ok(values);
    }
    

@@ -13,10 +13,10 @@ public class _PropertySliderComponentPartial:ViewComponent
         _httpClientFactory = httpClientFactory;
     }
     
-    public async Task<IViewComponentResult> InvokeAsync()
+    public async Task<IViewComponentResult> InvokeAsync(int id)
     {
         var cleint = _httpClientFactory.CreateClient();
-        var responseMessage = await cleint.GetAsync("https://localhost:44350/api/ProductImages?id=1");
+        var responseMessage = await cleint.GetAsync("https://localhost:44350/api/ProductImages?id=" + id);
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
