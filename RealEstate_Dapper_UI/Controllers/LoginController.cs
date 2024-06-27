@@ -15,10 +15,11 @@ namespace RealEstate_Dapper_UI.Controllers;
 public class LoginController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
-    public LoginController(IHttpClientFactory httpClientFactory)
+    private readonly ApiSettings _apiSettings;
+    public LoginController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
     {
         _httpClientFactory = httpClientFactory;
+        _apiSettings = apiSettings;
     }
     
     [HttpGet]
@@ -31,8 +32,9 @@ public class LoginController : Controller
     public async Task<IActionResult> Index(CreateLoginDto createLoginDto)
     {
         var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
         var content = new StringContent(JsonSerializer.Serialize(createLoginDto), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("https://localhost:44350/api/Login", content);
+        var response = await client.PostAsync("Login", content);
         if (response.IsSuccessStatusCode)
         {
             var jsonData = await response.Content.ReadAsStringAsync();

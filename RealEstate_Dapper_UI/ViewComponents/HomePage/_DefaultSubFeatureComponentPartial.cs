@@ -1,22 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.SubFeatureDtos;
+using RealEstate_Dapper_UI.Models;
 
 namespace RealEstate_Dapper_UI.ViewComponents.HomePage;
 
 public class _DefaultSubFeatureComponentPartial:ViewComponent
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
-    public _DefaultSubFeatureComponentPartial(IHttpClientFactory httpClientFactory)
+    private readonly ApiSettings _apiSettings;
+    public _DefaultSubFeatureComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
     {
         _httpClientFactory = httpClientFactory;
+        _apiSettings = apiSettings;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:44350/api/SubFeatures");
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.GetAsync("SubFeatures");
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.CategoryDtos;
 using RealEstate_Dapper_UI.Dtos.ProductDtos;
+using RealEstate_Dapper_UI.Models;
 using RealEstate_Dapper_UI.Services;
 
 namespace RealEstate_Dapper_UI.Areas.EstateAgent.Controllers;
@@ -13,18 +14,20 @@ public class MyAdvertsController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoginService _loginService;
-
-    public MyAdvertsController(IHttpClientFactory httpClientFactory, ILoginService loginService)
+    private readonly ApiSettings _apiSettings;
+    public MyAdvertsController(IHttpClientFactory httpClientFactory, ILoginService loginService, ApiSettings apiSettings)
     {
         _httpClientFactory = httpClientFactory;
         _loginService = loginService;
+        _apiSettings = apiSettings;
     }
 
     public async Task<IActionResult> ActiveAdverts()
     {
         var id = _loginService.GetUserId;
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:44350/api/Products/ProductAdvertsListByEmployeeIdByTrue?id=" + id);
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.GetAsync("Products/ProductAdvertsListByEmployeeIdByTrue?id=" + id);
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -38,7 +41,7 @@ public class MyAdvertsController : Controller
     {
         var id = _loginService.GetUserId;
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:44350/api/Products/ProductAdvertsListByEmployeeIdByFalse?id=" + id);
+        var responseMessage = await client.GetAsync("Products/ProductAdvertsListByEmployeeIdByFalse?id=" + id);
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -52,7 +55,7 @@ public class MyAdvertsController : Controller
     public async Task<IActionResult> CreateAdvert()
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:44350/api/Categories");
+        var responseMessage = await client.GetAsync("Categories");
         
         var jsonData = await responseMessage.Content.ReadAsStringAsync();
         var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
@@ -81,7 +84,7 @@ public class MyAdvertsController : Controller
         var client = _httpClientFactory.CreateClient();
         var jsonData = JsonConvert.SerializeObject(createProductDto);
         StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var responseMessage = await client.PostAsync("https://localhost:44350/api/Products/CreateProduct",stringContent);
+        var responseMessage = await client.PostAsync("Products/CreateProduct/",stringContent);
 
         if (responseMessage.IsSuccessStatusCode)
         {

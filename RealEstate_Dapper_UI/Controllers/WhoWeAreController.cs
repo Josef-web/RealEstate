@@ -2,22 +2,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.WhoWeAreDetailDtos;
+using RealEstate_Dapper_UI.Models;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
 public class WhoWeAreController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
-    public WhoWeAreController(IHttpClientFactory httpClientFactory)
+    private readonly ApiSettings _apiSettings;
+    public WhoWeAreController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
     {
         _httpClientFactory = httpClientFactory;
+        _apiSettings = apiSettings;
     }
 
     public async Task<IActionResult> Index()
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync("https://localhost:44350/api/WhoWeAreDetails");
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.GetAsync("WhoWeAreDetails");
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -37,9 +40,10 @@ public class WhoWeAreController : Controller
     public async Task<IActionResult> CreateWhoWeAreDetails(CreateWhoWeAreDetailsDto createWhoWeAreDetailsDto)
     {
         var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
         var jsonData = JsonConvert.SerializeObject(createWhoWeAreDetailsDto);
         StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var responseMessage = await client.PostAsync("https://localhost:44350/api/WhoWeAreDetails",stringContent);
+        var responseMessage = await client.PostAsync("WhoWeAreDetails/",stringContent);
     
         if (responseMessage.IsSuccessStatusCode)
         {
@@ -52,7 +56,8 @@ public class WhoWeAreController : Controller
     public async Task<IActionResult> DeleteWhoWeAreDetails(int id)
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.DeleteAsync($"https://localhost:44350/api/WhoWeAreDetails/{id}");
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.DeleteAsync($"WhoWeAreDetails/{id}");
         if (responseMessage.IsSuccessStatusCode)
         {
             return RedirectToAction("Index");
@@ -64,7 +69,8 @@ public class WhoWeAreController : Controller
     public async Task<IActionResult> UpdateWhoWeAreDetails(int id)
     {
         var client = _httpClientFactory.CreateClient();
-        var responseMessage = await client.GetAsync($"https://localhost:44350/api/WhoWeAreDetails/{id}");
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.GetAsync($"WhoWeAreDetails/{id}");
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -78,9 +84,10 @@ public class WhoWeAreController : Controller
     public async Task<IActionResult> UpdateWhoWeAreDetails(UpdateWhoWeAreDetailsDto updateWhoWeAreDetailsDto)
     {
         var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
         var jsonData = JsonConvert.SerializeObject(updateWhoWeAreDetailsDto);
         StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var responseMessage = await client.PutAsync("https://localhost:44350/api/WhoWeAreDetails/", stringContent);
+        var responseMessage = await client.PutAsync("WhoWeAreDetails/", stringContent);
         if (responseMessage.IsSuccessStatusCode)
         {
             return RedirectToAction("Index");

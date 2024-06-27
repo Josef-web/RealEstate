@@ -1,22 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.PropertyImageDtos;
+using RealEstate_Dapper_UI.Models;
 
 namespace RealEstate_Dapper_UI.ViewComponents.PropertyDetail;
 
 public class _PropertySliderComponentPartial:ViewComponent
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
-    public _PropertySliderComponentPartial(IHttpClientFactory httpClientFactory)
+    private readonly ApiSettings _apiSettings;
+    public _PropertySliderComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
     {
         _httpClientFactory = httpClientFactory;
+        _apiSettings = apiSettings;
     }
     
     public async Task<IViewComponentResult> InvokeAsync(int id)
     {
-        var cleint = _httpClientFactory.CreateClient();
-        var responseMessage = await cleint.GetAsync("https://localhost:44350/api/ProductImages?id=" + id);
+        
+        // TODO: Kesin bu örnek alınabilir.
+        var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        var responseMessage = await client.GetAsync("ProductImages?id=" + id);
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
