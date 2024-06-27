@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.ProductDetailDtos;
 using RealEstate_Dapper_UI.Dtos.ProductDtos;
 using RealEstate_Dapper_UI.Models;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
@@ -10,10 +11,10 @@ public class PropertyController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public PropertyController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public PropertyController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IActionResult> Index()
@@ -59,6 +60,7 @@ public class PropertyController : Controller
         var values = JsonConvert.DeserializeObject<ResultProductDto>(jsonData);
         
         var client2 = _httpClientFactory.CreateClient();
+        client2.BaseAddress = new Uri(_apiSettings.BaseUrl);
         var responseMessage2 = await client2.GetAsync("ProductDetails/GetProductDetailById?id=" + id);
         var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
         var values2 = JsonConvert.DeserializeObject<GetProductDetailByIdDto>(jsonData2);

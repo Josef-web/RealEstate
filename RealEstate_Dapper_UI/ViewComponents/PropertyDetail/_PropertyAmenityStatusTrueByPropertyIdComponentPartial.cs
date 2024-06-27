@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.PropertyAmenityDtos;
 using RealEstate_Dapper_UI.Models;
@@ -9,10 +10,10 @@ public class _PropertyAmenityStatusTrueByPropertyIdComponentPartial:ViewComponen
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public _PropertyAmenityStatusTrueByPropertyIdComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public _PropertyAmenityStatusTrueByPropertyIdComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(int id)

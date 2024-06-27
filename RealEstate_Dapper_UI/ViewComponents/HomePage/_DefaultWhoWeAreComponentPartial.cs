@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.ServicesDto;
 using RealEstate_Dapper_UI.Dtos.WhoWeAreDetailDtos;
 using RealEstate_Dapper_UI.Models;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.ViewComponents.HomePage;
 
@@ -10,10 +11,10 @@ public class _DefaultWhoWeAreComponentPartial:ViewComponent
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public _DefaultWhoWeAreComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public _DefaultWhoWeAreComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
@@ -22,7 +23,7 @@ public class _DefaultWhoWeAreComponentPartial:ViewComponent
         client.BaseAddress = new Uri(_apiSettings.BaseUrl);
         
         var client2 = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri(_apiSettings.BaseUrl);
+        client2.BaseAddress = new Uri(_apiSettings.BaseUrl);
         
         var responseMessage = await client.GetAsync("WhoWeAreDetails");
         var responseMessage2 = await client2.GetAsync("Services");

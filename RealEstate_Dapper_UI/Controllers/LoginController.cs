@@ -5,10 +5,10 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.LoginDtos;
 using RealEstate_Dapper_UI.Models;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
@@ -16,10 +16,10 @@ public class LoginController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public LoginController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public LoginController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
     
     [HttpGet]

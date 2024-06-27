@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.AppUserDtos;
 using RealEstate_Dapper_UI.Models;
@@ -11,21 +12,21 @@ public class _PropertyAppUserComponentPartial:ViewComponent
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoginService _loginService;
     private readonly ApiSettings _apiSettings;
-    public _PropertyAppUserComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings, ILoginService loginService)
+    public _PropertyAppUserComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings, ILoginService loginService)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
         _loginService = loginService;
     }
     
     public async Task<IViewComponentResult> InvokeAsync()
     {
         // TODO: Kesin doğru olmayabilir
-        var id = _loginService.GetUserId;
+        // var id = _loginService.GetUserId;
 
         var client = _httpClientFactory.CreateClient();
         client.BaseAddress = new Uri(_apiSettings.BaseUrl);
-        var responseMessage = await client.GetAsync("AppUsers?id="+id);
+        var responseMessage = await client.GetAsync("AppUsers?id=1");
         if (responseMessage.IsSuccessStatusCode)
         {
             var jsonData = await responseMessage.Content.ReadAsStringAsync();

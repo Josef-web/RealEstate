@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RealEstate_Dapper_UI.Models;
 using RealEstate_Dapper_UI.Services;
 
@@ -9,11 +10,11 @@ public class _EstateAgentDashboardStatisticComponentPartial : ViewComponent
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoginService _loginService;
     private readonly ApiSettings _apiSettings;
-    public _EstateAgentDashboardStatisticComponentPartial(IHttpClientFactory httpClientFactory, ILoginService loginService, ApiSettings apiSettings)
+    public _EstateAgentDashboardStatisticComponentPartial(IHttpClientFactory httpClientFactory, ILoginService loginService, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
         _loginService = loginService;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
     
     public async Task<IViewComponentResult> InvokeAsync()

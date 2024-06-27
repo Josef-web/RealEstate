@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.ServicesDto;
 using RealEstate_Dapper_UI.Models;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
@@ -11,10 +12,10 @@ public class ServicesController : Controller
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
 
-    public ServicesController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public ServicesController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IActionResult> Index()

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.EstateAgentDtos;
 using RealEstate_Dapper_UI.Models;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.ViewComponents.EstateAgent;
 
@@ -9,10 +10,10 @@ public class _EstateAgentDashboardChartComponentPartial : ViewComponent
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public _EstateAgentDashboardChartComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public _EstateAgentDashboardChartComponentPartial(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()

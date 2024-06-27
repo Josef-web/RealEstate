@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.CategoryDtos;
 using RealEstate_Dapper_UI.Dtos.ProductDtos;
@@ -15,11 +16,11 @@ public class MyAdvertsController : Controller
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoginService _loginService;
     private readonly ApiSettings _apiSettings;
-    public MyAdvertsController(IHttpClientFactory httpClientFactory, ILoginService loginService, ApiSettings apiSettings)
+    public MyAdvertsController(IHttpClientFactory httpClientFactory, ILoginService loginService, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
         _loginService = loginService;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IActionResult> ActiveAdverts()

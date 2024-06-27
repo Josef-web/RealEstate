@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.ToDoListDtos;
 using RealEstate_Dapper_UI.Models;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
@@ -9,10 +10,10 @@ public class ToDoListController : Controller
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
-    public ToDoListController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
+    public ToDoListController(IHttpClientFactory httpClientFactory, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IActionResult> Index()

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.ProductDtos;
 using RealEstate_Dapper_UI.Models;
 using RealEstate_Dapper_UI.Services;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.ViewComponents.EstateAgent;
 
@@ -11,11 +12,11 @@ public class _EstateAgentLastFiveProductComponentPartial : ViewComponent
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ApiSettings _apiSettings;
     private readonly ILoginService _loginService;
-    public _EstateAgentLastFiveProductComponentPartial(IHttpClientFactory httpClientFactory, ILoginService loginService, ApiSettings apiSettings)
+    public _EstateAgentLastFiveProductComponentPartial(IHttpClientFactory httpClientFactory, ILoginService loginService, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
         _loginService = loginService;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()

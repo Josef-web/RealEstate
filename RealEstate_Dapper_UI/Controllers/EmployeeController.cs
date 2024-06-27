@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using RealEstate_Dapper_UI.Dtos.EmployeeDtos;
 using RealEstate_Dapper_UI.Models;
 using RealEstate_Dapper_UI.Services;
+using Microsoft.Extensions.Options;
 
 namespace RealEstate_Dapper_UI.Controllers;
 
@@ -14,11 +15,11 @@ public class EmployeeController : Controller
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoginService _loginService;
     private readonly ApiSettings _apiSettings;
-    public EmployeeController(IHttpClientFactory httpClientFactory, ILoginService loginService, ApiSettings apiSettings)
+    public EmployeeController(IHttpClientFactory httpClientFactory, ILoginService loginService, IOptions<ApiSettings> apiSettings)
     {
         _httpClientFactory = httpClientFactory;
         _loginService = loginService;
-        _apiSettings = apiSettings;
+        _apiSettings = apiSettings.Value;
     }
 
     public async Task<IActionResult> Index()
